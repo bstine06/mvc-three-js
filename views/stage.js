@@ -5,7 +5,7 @@ export default class Stage {
 
         this.stage = new THREE.Object3D();
 
-        const stageMaterial1 = new THREE.MeshPhongMaterial({ color: 0xffffff });
+        const stageMaterial1 = new THREE.MeshPhongMaterial({ color: 0x333333 });
         const stageMaterial2 = new THREE.MeshPhongMaterial({ color: 0x999999 })
 
         const stageFloorGeometry = new THREE.BoxGeometry(300, 10, 300);

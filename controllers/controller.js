@@ -8,6 +8,7 @@ export default class Controller {
         this.view = new View();
         this.inputHandler = new InputHandler(this);
 
+        this.deltaTime = 0;
         this.animate = this.animate.bind(this);
         this.animate();
     }
@@ -15,8 +16,11 @@ export default class Controller {
     animate() {
         requestAnimationFrame(this.animate);
 
+        
+        this.deltaTime = performance.now() / 1000; // Convert to seconds
+
         // Update the model with the current velocity
-        this.model.update();
+        this.model.update(this.deltaTime);
 
         // Update the view (e.g., update rotations, positions)
         this.view.update(this.model);
@@ -44,7 +48,12 @@ export default class Controller {
 
     updateDebugPane() {
       const state = this.model.getState();
-      document.getElementById('position-info').innerText = `Position: X: ${state.positionX.toFixed(3)}, Z: ${state.positionZ.toFixed(3)}`;
+      const cubePositionX = state.cube.positionX.toFixed(3);
+      const cubePositionZ = state.cube.positionZ.toFixed(3);
+      document.getElementById('position-info').innerText = `
+            cube position:  x: ${cubePositionX}, z: ${cubePositionZ}
+            enemies: ${state.enemies.length}
+            seconds elapsed: ${this.deltaTime.toFixed(3)}`;
 
     }
 }

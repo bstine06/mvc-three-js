@@ -22,7 +22,7 @@ export default class Lighting {
 
     // Add a DirectionalLight
     this.light2 = new THREE.DirectionalLight(0xFF69B4, 0.6);
-    this.light2.position.set(140, 300, 140);
+    this.light2.position.set(-140, 300, 140);
     this.light2.castShadow = true;
 
     // Configure shadow properties for the light

@@ -1,8 +1,9 @@
 import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.min.js';
-import Camera from './Camera.js';
-import Lighting from './Lighting.js';
-import Stage from './Stage.js';
-import Cube from './Cube.js';
+import Camera from './camera.js';
+import Lighting from './lighting.js';
+import Stage from './stage.js';
+import Cube from './cube.js';
+import Enemy from './enemy.js';
 
 export default class View {
     constructor(controller) {
@@ -20,6 +21,8 @@ export default class View {
 
         this.stage = new Stage();
         this.cube = new Cube();
+
+        this.enemies = [];
 
         this.parentMesh = new THREE.Object3D();
         // this.parentMesh.rotation.y = this.toRadians(-8);
@@ -56,7 +59,32 @@ export default class View {
 
     update(model) {
         const state = model.getState();
-        const { positionX, positionZ } = state;
-        this.cube.getCube().position.set(positionX, this.cube.getCube().position.y, positionZ);
+
+        // Update cube position
+        const { positionX: cubePositionX, positionZ: cubePositionZ } = state.cube;
+        this.cube.getCube().position.set(cubePositionX, this.cube.getCube().position.y, cubePositionZ);
+
+        // Update enemies
+        state.enemies.forEach((enemyState, index) => {
+            if (this.enemies[index]) {
+                // Update existing enemy
+                const enemyMesh = this.enemies[index];
+                enemyMesh.position.set(enemyState.positionX, enemyMesh.position.y, enemyState.positionZ);
+            } else {
+                // Create new enemy if needed
+                const enemy = new Enemy();
+                const enemyMesh = enemy.getEnemy();
+                enemyMesh.position.set(enemyState.positionX, enemyMesh.position.y, enemyState.positionZ);
+                this.enemies.push(enemyMesh);
+                this.scene.add(enemyMesh);
+            }
+        });
+        // Remove excess enemies
+        if (this.enemies.length > state.enemies.length) {
+          for (let i = state.enemies.length; i < this.enemies.length; i++) {
+              this.scene.remove(this.enemies[i]);
+          }
+          this.enemies = this.enemies.slice(0, state.enemies.length);
+      }
     }
 }
