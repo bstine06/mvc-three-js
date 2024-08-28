@@ -2,7 +2,7 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/thr
 
 export default class Enemy {
     constructor() {
-        const enemyGeometry = new THREE.BoxGeometry(10, 5, 10);
+        const enemyGeometry = new THREE.BoxGeometry(13, 5, 13);
         const enemyMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
         this.enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
         this.enemy.castShadow = true;

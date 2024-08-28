@@ -4,6 +4,7 @@ import Lighting from './lighting.js';
 import Stage from './stage.js';
 import Cube from './cube.js';
 import Enemy from './enemy.js';
+import ExplosionEffect from './explosionEffect.js'; // Import the updated class
 
 export default class View {
     constructor(controller) {
@@ -24,15 +25,14 @@ export default class View {
 
         this.enemies = [];
 
-        this.parentMesh = new THREE.Object3D();
-        // this.parentMesh.rotation.y = this.toRadians(-8);
+        this.scene.add(this.cube.getCube());
 
-        this.parentMesh.add(this.stage.getStage());
-        this.parentMesh.add(this.cube.getCube());
-
-        this.scene.add(this.parentMesh);
+        this.scene.add(this.stage.getStage());
 
         new Lighting(this.scene);
+
+        this.explosionEffect = new ExplosionEffect(this.scene); // Initialize explosion effect
+        this.hasTriggeredEndGame = false;
 
         this.updateSize();
 
@@ -63,6 +63,13 @@ export default class View {
         // Update cube position
         const { positionX: cubePositionX, positionZ: cubePositionZ } = state.cube;
         this.cube.getCube().position.set(cubePositionX, this.cube.getCube().position.y, cubePositionZ);
+
+        // Check if the cube is not alive and handle explosion
+        if (!state.cube.alive && !this.hasTriggeredEndGame) {
+          this.explosionEffect.create(this.cube.getCube().position.clone());
+          this.scene.remove(this.cube.getCube());
+          this.hasTriggeredEndGame = true;
+        }
 
         // Update enemies
         state.enemies.forEach((enemyState, index) => {

@@ -32,6 +32,24 @@ export default class Stage {
         this.stage.add(stageWallRight);
         this.stage.add(stageWallTop);
         this.stage.add(stageWallBottom);
+
+        const waterGeometry = new THREE.PlaneGeometry(1000, 1000);
+const waterMaterial = new THREE.MeshStandardMaterial({
+    color: 0x00aaff, // Water color
+    roughness: 0.1,
+    metalness: 0.1,
+    transparent: true,
+    opacity: 0.6,
+    envMapIntensity: 1.0
+});
+
+const waterMesh = new THREE.Mesh(waterGeometry, waterMaterial);
+waterMesh.rotation.x = -Math.PI / 2; // Rotate to make it horizontal
+waterMesh.receiveShadow = true;
+this.stage.add(waterMesh);
+
+
+
     }
 
     getStage() {

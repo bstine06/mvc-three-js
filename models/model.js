@@ -1,66 +1,73 @@
-import Cube from './cube.js';
-import Enemy from './enemy.js';
+import Cube from "./cube.js";
+import Enemy from "./enemy.js";
 
 export default class Model {
-    constructor() {
-        this.cube = new Cube(0.4, 0.95);
-        this.enemies = [];
-        this.enemyWaitTimer = 0;
-        this.activeGame = false;
-    }
+  constructor() {
+    this.cube = new Cube(0.6, 0.92, 0.7);
+    this.enemies = [];
+    this.enemyWaitTimer = 0;
+    this.activeGame = true;
 
-    applyForce(direction) {
-        this.cube.applyForce(direction);
-    }
+    this.enemyTimerInterval = 6;
+  }
 
-    update(deltaTime) {
-        
-        this.cube.update();
+  applyForce(direction) {
+    this.cube.applyForce(direction);
+  }
 
-        // Update each enemy and check for collisions
-        for (let i = this.enemies.length - 1; i >= 0; i--) {
-            const enemy = this.enemies[i];
-            enemy.update();
+  update(deltaTime) {
+    this.cube.update();
 
-            // Check if the enemy is out of bounds and remove it if so
-            if (Math.abs(enemy.positionX) > 300 || Math.abs(enemy.positionZ) > 300) {
-                this.enemies.splice(i, 1); // Remove enemy from array
-                continue; // Skip collision detection for removed enemy
-            }
+    if (this.activeGame) {
+      // Update each enemy and check for collisions
+      for (let i = this.enemies.length - 1; i >= 0; i--) {
+        const enemy = this.enemies[i];
+        enemy.update();
 
-            // Check collision with the cube
-            if (this.cube.getAABB().intersects(enemy.getAABB())) {
-                console.log('Collision detected!');
-                // Handle collision (e.g., remove the enemy, update score, etc.)
-                this.endRound();
-            }
+        // Check if the enemy is out of bounds and remove it if so
+        if (
+          Math.abs(enemy.positionX) > 300 ||
+          Math.abs(enemy.positionZ) > 300
+        ) {
+          this.enemies.splice(i, 1); // Remove enemy from array
+          continue; // Skip collision detection for removed enemy
         }
 
-        // Spawn new enemies
-        if (this.enemyWaitTimer === 0) {
-            const newEnemy = new Enemy(0.1, 2);
-            this.addEnemy(newEnemy);
-            this.enemyWaitTimer = 10;
+        // Check collision with the cube
+        if (this.cube.getAABB().intersects(enemy.getAABB())) {
+          console.log("Collision detected!");
+          // Handle collision (e.g., remove the enemy, update score, etc.)
+          this.endRound();
         }
-        this.enemyWaitTimer--;
-    }
+      }
 
-    endRound() {
-        this.cube.fail();
-        this.enemies.forEach((enemy) => {
-            enemy.velocityX = 0;
-            enemy.velocityZ = 0;
-        })
+      // Spawn new enemies
+      if (this.enemyWaitTimer === 0) {
+        const newEnemy = new Enemy(0.1, 2);
+        this.addEnemy(newEnemy);
+        this.enemyWaitTimer = this.enemyTimerInterval;
+      }
+      this.enemyWaitTimer--;
     }
+  }
 
-    getState() {
-        return { 
-            cube: this.cube.getState(),
-            enemies: this.enemies.map(enemy => enemy.getState()) // Array of enemy states
-        };
-    }
+  endRound() {
+    this.cube.fail();
+    this.activeGame = false;
+    this.enemies.forEach((enemy) => {
+      enemy.velocityX = 0;
+      enemy.velocityZ = 0;
+    });
+  }
 
-    addEnemy(enemy) {
-        this.enemies.push(enemy);
-    }
+  getState() {
+    return {
+      cube: this.cube.getState(),
+      enemies: this.enemies.map((enemy) => enemy.getState()), // Array of enemy states
+    };
+  }
+
+  addEnemy(enemy) {
+    this.enemies.push(enemy);
+  }
 }

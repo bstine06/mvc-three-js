@@ -1,9 +1,9 @@
 import AABB from '../utils/aabb.js';
 
 export default class Cube {
-  constructor(acceleration, friction) {
-    this.positionX = -140;
-    this.positionZ = 140;
+  constructor(acceleration, friction, bounciness) {
+    this.positionX = 75;
+    this.positionZ = 75;
     this.velocityX = 0;
     this.velocityZ = 0;
     this.acceleration = acceleration; // Acceleration for the cube
@@ -15,6 +15,7 @@ export default class Cube {
     this.minZ = -140;
     this.maxZ = 140;
 
+    this.bounciness = -1 * bounciness;
     this.alive = true;
   }
 
@@ -44,19 +45,19 @@ export default class Cube {
     // Enforce boundary limits for x position
     if (this.positionX < this.minX) {
       this.positionX = this.minX;
-      this.velocityX = 0; // Stop movement when hitting the boundary
+      this.velocityX *= this.bounciness; // Stop movement when hitting the boundary
     } else if (this.positionX > this.maxX) {
       this.positionX = this.maxX;
-      this.velocityX = 0; // Stop movement when hitting the boundary
+      this.velocityX *= this.bounciness; // Stop movement when hitting the boundary
     }
 
     // Enforce boundary limits for z position
     if (this.positionZ < this.minZ) {
       this.positionZ = this.minZ;
-      this.velocityZ = 0; // Stop movement when hitting the boundary
+      this.velocityZ *= this.bounciness; // Stop movement when hitting the boundary
     } else if (this.positionZ > this.maxZ) {
       this.positionZ = this.maxZ;
-      this.velocityZ = 0; // Stop movement when hitting the boundary
+      this.velocityZ *= this.bounciness; // Stop movement when hitting the boundary
     }
   }
 
