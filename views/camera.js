@@ -10,8 +10,9 @@ export default class Camera {
         const far = 500;
 
         this.camera = new THREE.OrthographicCamera(left, right, top, bottom, near, far);
-        this.camera.position.z = 100;
-        this.camera.position.y = 100;
+        this.camera.position.z = 80;
+        this.camera.position.y = 80;
+        this.camera.position.x = 20;
         this.camera.lookAt(0, 0, 0);
     }
 

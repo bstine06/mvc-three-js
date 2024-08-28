@@ -22,7 +22,7 @@ export default class View {
         this.cube = new Cube();
 
         this.parentMesh = new THREE.Object3D();
-        this.parentMesh.rotation.y = this.toRadians(-8);
+        // this.parentMesh.rotation.y = this.toRadians(-8);
 
         this.parentMesh.add(this.stage.getStage());
         this.parentMesh.add(this.cube.getCube());
@@ -57,6 +57,6 @@ export default class View {
     update(model) {
         const state = model.getState();
         const { positionX, positionZ } = state;
-        this.cube.getCube().position.set(positionX, 15, positionZ);
+        this.cube.getCube().position.set(positionX, this.cube.getCube().position.y, positionZ);
     }
 }
