@@ -3,7 +3,7 @@ import Enemy from './enemy.js';
 
 export default class Model {
     constructor() {
-        this.cube = new Cube();
+        this.cube = new Cube(0.4, 0.96);
         this.enemies = [];
         this.enemyWaitTimer = 0;
     }
@@ -15,13 +15,23 @@ export default class Model {
 
     update(deltaTime) {
         this.cube.update();
-        this.enemies.forEach(enemy => {
+
+        // Iterate over the enemies and update their position
+        for (let i = this.enemies.length - 1; i >= 0; i--) {
+            const enemy = this.enemies[i];
             enemy.update();
-        });
-        const newEnemy = new Enemy();
+            
+            // Check if enemy is out of bounds and remove it if so
+            if (Math.abs(enemy.positionX) > 300 || Math.abs(enemy.positionZ) > 300) {
+                this.enemies.splice(i, 1); // Remove enemy from array
+            }
+        }
+
+        // Spawn new enemies
         if (this.enemyWaitTimer === 0) {
+            const newEnemy = new Enemy(0.2, 1);
             this.addEnemy(newEnemy);
-            this.enemyWaitTimer = 50;
+            this.enemyWaitTimer = 10;
         }
         this.enemyWaitTimer--;
     }

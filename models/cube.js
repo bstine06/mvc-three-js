@@ -1,11 +1,11 @@
 export default class Cube {
-  constructor() {
+  constructor(acceleration, friction) {
     this.positionX = -140;
     this.positionZ = 140;
     this.velocityX = 0;
     this.velocityZ = 0;
-    this.acceleration = 0.5; // Acceleration for the cube
-    this.friction = 0.93; // Friction to gradually slow down the cube
+    this.acceleration = acceleration; // Acceleration for the cube
+    this.friction = friction; // Friction to gradually slow down the cube
 
     // Boundary limits
     this.minX = -140;
