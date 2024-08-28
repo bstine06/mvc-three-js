@@ -1,3 +1,5 @@
+import AABB from '../utils/aabb.js';
+
 export default class Cube {
   constructor(acceleration, friction) {
     this.positionX = -140;
@@ -6,12 +8,14 @@ export default class Cube {
     this.velocityZ = 0;
     this.acceleration = acceleration; // Acceleration for the cube
     this.friction = friction; // Friction to gradually slow down the cube
-
+    this.size = 20;
     // Boundary limits
     this.minX = -140;
     this.maxX = 140;
     this.minZ = -140;
     this.maxZ = 140;
+
+    this.alive = true;
   }
 
   // Method to apply forces based on key inputs
@@ -56,10 +60,27 @@ export default class Cube {
     }
   }
 
+  fail() {
+    this.alive = false;
+  }
+
   getState() {
     return {
       positionX: this.positionX,
       positionZ: this.positionZ,
+      alive: this.alive
     };
+  }
+  
+  // Get the AABB for this cube
+  getAABB() {
+    return new AABB(
+        this.positionX - this.size / 2,
+        this.positionX + this.size / 2,
+        -this.size / 2, // Assuming cube is flat on the y-axis
+        this.size / 2,
+        this.positionZ - this.size / 2,
+        this.positionZ + this.size / 2
+    );
   }
 }

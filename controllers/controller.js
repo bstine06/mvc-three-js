@@ -19,7 +19,7 @@ export default class Controller {
         
         this.deltaTime = performance.now() / 1000; // Convert to seconds
 
-        // Update the model with the current velocity
+        // Update the model
         this.model.update(this.deltaTime);
 
         // Update the view (e.g., update rotations, positions)
@@ -53,7 +53,8 @@ export default class Controller {
       document.getElementById('position-info').innerText = `
             cube position:  x: ${cubePositionX}, z: ${cubePositionZ}
             enemies: ${state.enemies.length}
-            seconds elapsed: ${this.deltaTime.toFixed(3)}`;
+            seconds elapsed: ${this.deltaTime.toFixed(3)}
+            alive: ${state.cube.alive}`;
 
     }
 }
