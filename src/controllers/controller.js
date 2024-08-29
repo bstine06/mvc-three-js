@@ -32,18 +32,7 @@ export default class Controller {
     }
 
     handleInput(keys) {
-        if (keys["ArrowUp"]) {
-            this.model.applyForce('up');
-        }
-        if (keys["ArrowDown"]) {
-            this.model.applyForce('down');
-        }
-        if (keys["ArrowLeft"]) {
-            this.model.applyForce('left');
-        }
-        if (keys["ArrowRight"]) {
-            this.model.applyForce('right');
-        }
+        this.model.onKeyPressed(keys);
     }
 
     updateDebugPane() {
