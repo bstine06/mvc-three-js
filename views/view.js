@@ -4,7 +4,8 @@ import Lighting from './lighting.js';
 import Stage from './stage.js';
 import Cube from './cube.js';
 import Enemy from './enemy.js';
-import ExplosionEffect from './explosionEffect.js'; // Import the updated class
+import ExplosionEffect from './explosionEffect.js';
+import { StartGamePad } from './menuOptions.js';
 
 export default class View {
     constructor(controller) {
@@ -23,11 +24,15 @@ export default class View {
         this.stage = new Stage();
         this.cube = new Cube();
 
+        this.startGamePad = new StartGamePad();
+
         this.enemies = [];
 
         this.scene.add(this.cube.getCube());
 
         this.scene.add(this.stage.getStage());
+
+        //this.scene.add(this.startGamePad.getStartGamePad());
 
         new Lighting(this.scene);
 

@@ -50,11 +50,14 @@ export default class Controller {
       const state = this.model.getState();
       const cubePositionX = state.cube.positionX.toFixed(3);
       const cubePositionZ = state.cube.positionZ.toFixed(3);
-      document.getElementById('position-info').innerText = 
-           `cube position: x: ${cubePositionX}, z: ${cubePositionZ}
-            enemies alive: ${state.enemies.length}
-            total seconds: ${this.deltaTime.toFixed(3)}
-            cube is alive: ${state.cube.alive}`;
+
+      if (state.cube.alive) {
+        document.getElementById('position-info').innerText = 
+        `cube position: x: ${cubePositionX}, z: ${cubePositionZ}
+         enemies alive: ${state.enemies.length}
+         total seconds: ${this.deltaTime.toFixed(3)}`;
+      }
+      
 
     }
 }

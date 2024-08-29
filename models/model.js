@@ -3,11 +3,13 @@ import Enemy from "./enemy.js";
 
 export default class Model {
   constructor() {
-    this.cube = new Cube(0.6, 0.92, 0.7);
     this.enemies = [];
     this.enemyWaitTimer = 0;
     this.activeGame = true;
 
+    this.cube = new Cube(0.5, 0.90, 0.9);
+    this.enemyMinVelocity = 0.1;
+    this.enemyMaxVelocity = 1.5;
     this.enemyTimerInterval = 6;
   }
 
@@ -43,12 +45,16 @@ export default class Model {
 
       // Spawn new enemies
       if (this.enemyWaitTimer === 0) {
-        const newEnemy = new Enemy(0.1, 2);
+        const newEnemy = new Enemy(this.enemyMinVelocity, this.enemyMaxVelocity);
         this.addEnemy(newEnemy);
         this.enemyWaitTimer = this.enemyTimerInterval;
       }
       this.enemyWaitTimer--;
     }
+  }
+
+  startRound() {
+    this.activeGame = true;
   }
 
   endRound() {

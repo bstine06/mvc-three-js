@@ -6,7 +6,7 @@ export default class Cube {
         const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
         this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
         this.cube.castShadow = true;
-        this.cube.position.set(140, 15, 140);
+        this.cube.position.set(140, 16, 140);
     }
 
     getCube() {

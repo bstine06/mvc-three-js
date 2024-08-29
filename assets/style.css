@@ -1,16 +1,19 @@
-/* Ensure the body has no margin and the canvas fills the viewport */
+/* Ensure the body has no margin and fills the viewport */
 body, html {
   margin: 0;
   padding: 0;
   overflow: hidden; /* Prevent scrolling */
   height: 100%;
   background-color: black;
+  display: flex; /* Use Flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
 }
 
 canvas {
   display: block; /* Remove inline spacing */
-  width: 100vw;
-  height: 100vh;
+  max-width: 100%; /* Ensure canvas does not overflow */
+  max-height: 100%; /* Ensure canvas does not overflow */
 }
 
 #debug-pane {
@@ -19,7 +22,7 @@ canvas {
   left: 10px;
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
-  padding: 0px 10px 0px 10px;
+  padding: 0px 10px;
   border-radius: 5px;
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
