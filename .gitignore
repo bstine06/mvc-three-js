@@ -1,0 +1,29 @@
+# Node modules
+/node_modules/
+
+# Build output
+/dist/
+/build/
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# IDE/editor-specific files
+.vscode/
+.idea/
+
+# Webpack cache
+/.cache/
+
+# NPM package lock file
+package-lock.json
+
+# TypeScript (if using)
+*.tsbuildinfo
